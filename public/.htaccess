@@ -1,0 +1,28 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Serve static files and folders as-is
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Prevent Apache from forcing trailing slashes
+  DirectorySlash Off
+
+  # Route all other requests to index.html (React handles routing)
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+# Real 404 fallback (must exist in build folder)
+ErrorDocument 404 /404.html
+
+<IfModule mod_autoindex.c>
+  # Disable directory browsing
+  Options -Indexes
+</IfModule>
+
+<IfModule mod_headers.c>
+  # Optional: Allow all origins (adjust for production)
+  Header set Access-Control-Allow-Origin "*"
+</IfModule>

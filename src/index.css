@@ -1,0 +1,27 @@
+@import "tailwindcss";
+.vignette-overlay {
+  background: radial-gradient(
+    circle at center,
+    rgba(0, 0, 0, 0) 40%,
+    rgba(0, 0, 0, 0.5) 80%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+}
+
+.perspective {
+  perspective: 1000px;
+}
+
+.iridescence-container {
+  width: 100%;
+  height: 100%;
+}
+#root {
+  background-color: rgba(0, 0, 0, 0);
+}
+.mask-bottom-curve {
+  clip-path: ellipse(100% 100% at 50% 0%);
+  -webkit-clip-path: ellipse(100% 100% at 50% 0%);
+  transition: clip-path 0.5s ease;
+}
+
