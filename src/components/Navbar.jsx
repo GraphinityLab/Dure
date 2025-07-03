@@ -8,7 +8,7 @@ const pages = [
   { name: "Services", href: "/services" },
   { name: "Gallery", href: "/gallery" },
   { name: "Contact", href: "/contact" },
-  { name: "Book Now", href: "/book", isCTA: true },
+  { name: "Book Now", href: "/book-now", isCTA: true },
 ];
 
 const Navbar = () => {
@@ -65,7 +65,7 @@ const Navbar = () => {
             transition={{ duration: 0.6, ease: "easeOut" }}
           />
           <motion.span
-            className={`text-xl uppercase font-serif transition-colors ${textColor}`}
+            className={`text-xl font-serif transition-colors ${textColor}`}
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.6 }}

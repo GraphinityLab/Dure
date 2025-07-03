@@ -22,9 +22,9 @@ const Footer = () => {
         {/* Navigation */}
         <div className="z-10">
           <h3 className="font-medium mb-4 tracking-wide uppercase text-[#3e2e3d]">Quick Links</h3>
-          <ul className="space-y-2">
-            {["About", "Services", "Gallery", "Contact", "Book Appointment"].map((text, i) => {
-              const href = `#${text.toLowerCase().replace(" ", "")}`;
+          <ul className="space-y-2 uppercase">
+            {["About", "Services", "Gallery", "Contact", "book-now"].map((text, i) => {
+              const href = `/${text.toLowerCase().replace(" ", "")}`;
               return (
                 <li key={i}>
                   <a
