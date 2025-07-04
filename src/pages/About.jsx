@@ -1,81 +1,67 @@
 import React from "react";
 import { motion } from "framer-motion";
-import aboutBg from "/candle2.gif";
-import Gallery from "../components/Gallery";
 
 const About = () => {
   return (
-    <>
-      <section
-        id="about"
-        className="relative overflow-hidden py-24 px-6 bg-gradient-to-b from-[#fdf6f6]/100 to-transparent  text-[#3e2e3d]"
-      >
-        {/* Blurred Decorative Backgrounds */}
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute top-[10%] left-[15%] w-[300px] h-[300px] bg-rose-100/40 blur-[100px] rounded-full" />
-          <div className="absolute bottom-[10%] right-[10%] w-[250px] h-[250px] bg-pink-200/30 blur-[80px] rounded-full" />
-        </div>
-
-        {/* Section Header */}
-        <motion.div
-          className="max-w-6xl mx-auto text-center mb-16"
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          viewport={{ once: true }}
+    <section className="py-24 px-6 bg-gradient-to-b from-[#fdf6f6] to-transparent text-[#3e2e3d]">
+      <div className="max-w-4xl mx-auto">
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-4xl md:text-5xl font-serif mb-6 text-center"
         >
-          <h2 className="text-4xl md:text-5xl font-serif mb-4 tracking-tight relative">
-            <span className="relative z-10">About Us</span>
-            <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-12 h-[2px] bg-[#3e2e3d] rounded-full opacity-40" />
-          </h2>
-          <p className="max-w-2xl mx-auto text-base md:text-lg text-[#5f4b5a]">
-            Learn more about our philosophy, team, and commitment to elegant, mindful beauty.
+          STORY
+        </motion.h1>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2, duration: 0.6 }}
+          className="space-y-8 text-base md:text-lg leading-relaxed"
+        >
+          <p>
+            In a world that constantly tells women how they should look, we created a space where women are reminded of how beautiful, powerful, and complete they already are inside and out.
+            This clinic was built with a purpose that goes far beyond skin-deep beauty. As someone deeply passionate about women’s empowerment, I’ve always dreamt of a place where every woman could feel secure, seen, and unapologetically confident where she could walk out with her head held high, owning her worth, her beauty, and her identity.
+            “Every girl deserves to walk into a room like she owns it, because she does.”
+            I’ve always believed that when a woman truly embraces herself not just how she looks, but how she feels, she becomes unstoppable. That belief led me to study Medical Aesthetics, where I trained professionally in skincare, massage therapies, and modern aesthetic treatments. I’ve also spent years learning the art of self-care through experience and practice.
+            But even with my training, I saw a gap in Markham a lack of spaces that offer high-quality, all in one beauty services that don’t feel cold or clinical. So I decided to build the kind of place I wish existed: warm, welcoming, professional, empowering where everything from massages and facials to laser, makeup, hairstyling, and even photography lives under one roof.
+            This is more than a clinic. It’s a movement.
+          </p>
+
+          <h2 className="text-3xl font-serif mt-12">Vision:</h2>
+
+          <p>
+            Our Vision:
+            We don’t just provide beauty services we elevate confidence.
+            Our mission is simple but powerful: to help every girl and woman feel so beautiful, secure, and self-assured that no one and nothing can dim her light. We believe in the kind of self-obsession that’s healthy, healing, and rooted in self-worth.
+            Whether you come to us for a relaxing steam facial, precise laser treatment, signature bridal makeover, or just a fresh set of brows we’re here to remind you that you are already enough, and everything we do is just the cherry on top.
+          </p>
+
+          <h2 className="text-3xl font-serif mt-12">What Makes Us Different</h2>
+          <ul className="list-disc pl-5 space-y-2">
+            <li>A Soulful Touch to Professional Care<br />We don’t just treat skin we uplift spirits.</li>
+            <li>One-Stop Beauty Destination<br />From facials and steaming to nails, waxing, makeup, laser, signature makeup, hairstyling, and more it’s all here.</li>
+            <li>Empowerment is Our Foundation<br />We’re building self-esteem, one appointment at a time.</li>
+            <li>Medically Trained & Experience-Backed<br />With a degree in Medical Aesthetics and years of hands on care, we deliver real results with genuine heart.</li>
+            <li>Photography Studio On-Site<br />Capture your glow with professional photography after your glam because you deserve to see yourself in your best light.</li>
+          </ul>
+
+          <p>
+            This is where beauty meets purpose, and where every client becomes part of something bigger. We can’t wait to welcome you in.
+          </p>
+
+          <h2 className="text-3xl font-serif mt-12">Our Philosophy</h2>
+          <p>
+            At the heart of everything we do is one simple belief:
+            Every woman deserves to feel radiant, powerful, and deeply at home in her own skin.
+            We believe that beauty is not about changing who you are, it’s about nurturing what already exists. It’s about elevating confidence, celebrating individuality, and creating a space where self-love comes naturally.
+            Our treatments are rooted in care, not just cosmetics. We blend professional expertise with soulful intention, offering not just beauty services, but moments of peace, empowerment, and self discovery. From the glow of a fresh facial to the joy of a signature glam, every touch is designed to make you feel seen, heard, and celebrated.
+            Here, beauty is never forced. It’s revealed.
           </p>
         </motion.div>
-
-        {/* Content Section */}
-        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <motion.div
-            className="rounded-3xl overflow-hidden shadow-xl"
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            viewport={{ once: true }}
-          >
-            <img
-              src={aboutBg}
-              alt="Duré Aesthetics Interior"
-              className="w-full h-auto object-cover"
-              loading="lazy"
-            />
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            viewport={{ once: true }}
-          >
-            <h3 className="text-2xl font-serif mb-4">Our Essence</h3>
-            <p className="text-[#5f4b5a] leading-relaxed mb-4">
-              Duré Aesthetics is more than a studio — it’s a retreat for those seeking balance,
-              tranquility, and refined self-care. Our approach blends timeless techniques with modern
-              sensibilities to provide experiences that rejuvenate both body and soul.
-            </p>
-            <p className="text-[#5f4b5a] leading-relaxed">
-              Every detail, from our interior design to our curated treatments, is guided by the
-              principle of gentle luxury. We believe beauty flourishes in stillness, and our space
-              reflects that — calm, elegant, and deeply personal.
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Integrated Gallery Section */}
-      <section className="relative z-10" id="philosophy">
-        <Gallery />
-      </section>
-    </>
+      </div>
+    </section>
   );
 };
 

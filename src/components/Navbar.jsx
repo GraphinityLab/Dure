@@ -6,7 +6,7 @@ import logo from "/icon.png";
 const pages = [
   { name: "About", href: "/about" },
   { name: "Services", href: "/services" },
-  { name: "Gallery", href: "/gallery" },
+  { name: "Faq", href: "/Faq" },
   { name: "Contact", href: "/contact" },
   { name: "Book Now", href: "/book-now", isCTA: true },
 ];

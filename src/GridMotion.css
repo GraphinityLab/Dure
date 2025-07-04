@@ -1,4 +1,3 @@
-
 .noscroll {
   height: 100%;
   width: 100%;
@@ -13,18 +12,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.intro::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-size: 250px;
-  pointer-events: none;
-  z-index: 4;
 }
 
 .gridMotion-container {
@@ -54,7 +41,6 @@
 .row__item:hover {
   transform: scale(1.05);
 }
-
 
 .row__item-inner {
   position: relative;
@@ -93,8 +79,4 @@
   top: 0;
   left: 0;
   pointer-events: none;
-}
-
-.fullview .row__item-inner {
-  border-radius: 0px;
 }

@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Services from "./pages/Services";
 import Contact from "./pages/Contact";
+import FaqPage from "./pages/FaqPage";
 import Book from "./pages/Book";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -30,6 +31,8 @@ function App() {
           <Route path="/services" element={<Services />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/book-now" element={<Book />} />
+          <Route path="/faq" element={<FaqPage />} />
+          <Route path="/faq/:category" element={<FaqPage />} />
         </Routes>
       </main>
       <Footer />

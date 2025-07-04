@@ -1,131 +1,140 @@
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-    FaLeaf,
-    FaSpa,
-    FaSun,
-    FaFeatherAlt,
-    FaUserMd,
-    FaHandHoldingHeart,
-    FaChevronDown,
-    FaChevronUp,
-} from "react-icons/fa";
+import React from "react";
 
-const serviceList = [
+const services = [
     {
-        title: "Facial Treatments",
-        description: "Rejuvenating facials tailored to your skin type using high-quality, gentle products.",
-        icon: <FaLeaf size={28} />,
-        detail: "We offer hydrating, anti-aging, and detox facials using premium botanical formulas for visible results."
+        category: "Facials & Skin Treatments",
+        items: [
+            { name: "Express Facial (30 mins)", price: "$85" },
+            { name: "Hydrating Facial", price: "$140" },
+            { name: "Deep Cleansing Facial (Acne/Clogged)", price: "$160" },
+            { name: "Signature Glow Facial + Steam", price: "$180" },
+            { name: "Micro needling", price: "$220" },
+            { name: "Chemical Peel (Light/Medical Grade)", price: "$165" },
+            { name: "Hydra facial", price: "$195" },
+            { name: "Back Facial", price: "$150" },
+            { name: "LED Therapy (Add-On)", price: "$40" },
+            { name: "Teen Facial", price: "$95" },
+            { name: "Sensitive Skin / Rosacea Facial", price: "$145" },
+        ],
     },
     {
-        title: "Body Massage",
-        description: "Relaxing and therapeutic massages designed to release tension and promote wellness.",
-        icon: <FaSpa size={28} />,
-        detail: "Choose from Swedish, deep tissue, or hot stone therapy to relieve muscle tension and promote blood flow."
+        category: "Massage Therapy",
+        items: [
+            { name: "Relaxation Massage (60 min)", price: "$110" },
+            { name: "Deep Tissue Massage", price: "$130" },
+            { name: "Aromatherapy Massage", price: "$135" },
+            { name: "Hot Stone Massage", price: "$140" },
+            { name: "Prenatal Massage", price: "$130" },
+            { name: "Head, Neck & Shoulder Massage", price: "$85" },
+            { name: "Full Body Massage (Customized)", price: "$145" },
+        ],
     },
     {
-        title: "Skin Therapy",
-        description: "Targeted treatments for acne, dryness, or uneven tone — personalized to your needs.",
-        icon: <FaSun size={28} />,
-        detail: "From chemical peels to hydration boosters, our licensed team uses safe and effective techniques."
+        category: "Nail Services",
+        items: [
+            { name: "Classic Manicure", price: "$40" },
+            { name: "Shellac Manicure", price: "$55" },
+            { name: "Gel Manicure", price: "$65" },
+            { name: "Classic Pedicure", price: "$55" },
+            { name: "Spa Pedicure", price: "$75" },
+            { name: "Gel Extensions (Full Set)", price: "$85" },
+            { name: "Customized Nail Art (Full Set)", price: "$95–$120" },
+            { name: "French Tips / Nail Art (Add-On)", price: "$5–8 per nail" },
+            { name: "Paraffin Wax Treatment (Add-On)", price: "$20" },
+            { name: "Kids Mani/Pedi", price: "$35" },
+        ],
     },
     {
-        title: "Waxing & Hair Removal",
-        description: "Smooth, professional waxing services with minimal discomfort and long-lasting results.",
-        icon: <FaFeatherAlt size={28} />,
-        detail: "We use hypoallergenic wax and soothing aftercare to ensure a clean, smooth finish every time."
+        category: "Makeup Services",
+        items: [
+            { name: "Event Makeup", price: "$120" },
+            { name: "Soft Glam", price: "$150" },
+            { name: "Full Glam", price: "$160" },
+            { name: "Signature Bridal Makeup", price: "$250" },
+            { name: "Nikkah / Engagement Makeup", price: "$180" },
+            { name: "Prom / Photoshoot Makeup", price: "$130" },
+            { name: "Airbrush Makeup", price: "$190" },
+            { name: "Touch-Up Service (Add-On)", price: "$50" },
+        ],
     },
     {
-        title: "Aesthetic Consultations",
-        description: "Meet 1-on-1 with our experts to plan your custom beauty and wellness routine.",
-        icon: <FaUserMd size={28} />,
-        detail: "Book a consult to evaluate your skin goals, ask questions, and receive personalized care plans."
+        category: "Waxing & Hair Removal",
+        items: [
+            { name: "Eyebrow Threading/Waxing", price: "$22" },
+            { name: "Upper Lip / Chin", price: "$18" },
+            { name: "Full Face", price: "$55" },
+            { name: "Underarms", price: "$30" },
+            { name: "Full Arms", price: "$65" },
+            { name: "Half Legs / Full Legs", price: "$55 / $90" },
+            { name: "Bikini Line", price: "$65" },
+            { name: "Brazilian Wax", price: "$70" },
+            { name: "Full Body Wax", price: "$170" },
+        ],
     },
     {
-        title: "Healing Rituals",
-        description: "Holistic treatments combining touch, scent, and sound to calm body and mind.",
-        icon: <FaHandHoldingHeart size={28} />,
-        detail: "Our signature rituals include aromatherapy, warm towels, and mindfulness techniques."
+        category: "Laser Hair Removal",
+        items: [
+            { name: "Upper Lip", price: "$60" },
+            { name: "Chin / Sideburns", price: "$60" },
+            { name: "Full Face", price: "$120" },
+            { name: "Underarms", price: "$85" },
+            { name: "Arms (Half / Full)", price: "$110 / $145" },
+            { name: "Legs (Half / Full)", price: "$150 / $275" },
+            { name: "Bikini Line", price: "$130" },
+            { name: "Brazilian", price: "$170" },
+            { name: "Chest / Back", price: "$150 / $225" },
+            { name: "Full Body", price: "$449" },
+        ],
+    },
+    {
+        category: "Hairstyling",
+        items: [
+            { name: "Blowdry (Basic)", price: "$65" },
+            { name: "Curls / Waves", price: "$70" },
+            { name: "Event Updo", price: "$120" },
+            { name: "Bridal Hairstyling (Trial + Day)", price: "$220" },
+            { name: "Scalp Oil Massage + Blowdry", price: "$85" },
+            { name: "Hair Extensions Install (Clip-in)", price: "$95" },
+            { name: "Braiding / Styling (Variety)", price: "$55–75" },
+        ],
+    },
+    {
+        category: "Photography Studio Add-On",
+        items: [
+            { name: "Glam Photoshoot (20 mins)", price: "$75" },
+            { name: "Bridal Photography Session", price: "$110" },
+            { name: "Instagram Content Shoot", price: "$85" },
+            { name: "Before & After Shoot", price: "$60" },
+        ],
     },
 ];
 
-const ServiceCard = ({ title, icon, description, detail }) => {
+const ServicesPage = () => {
     return (
-        <div className="group text-left w-full rounded-3xl bg-white/80 border border-[#e6dede] p-6 shadow-md hover:shadow-xl transition-all backdrop-blur-md flex flex-col justify-between">
-            <div>
-                <div className="flex items-center gap-3 mb-4">
-                    <div className="text-[#3e2e3d]">{icon}</div>
-                    <h3 className="text-lg font-serif text-[#3e2e3d]">{title}</h3>
-                </div>
-
-                <p className="text-sm text-[#5f4b5a] leading-relaxed mb-2">{description}</p>
-                <p className="text-sm text-[#5f4b5a] leading-relaxed">{detail}</p>
-            </div>
-
-            <div className="mt-6">
-                <a
-                    href="/book-now"
-                    className="inline-block px-5 py-2 rounded-full border border-[#3e2e3d] text-[#3e2e3d] hover:bg-[#3e2e3d] hover:text-white transition-all duration-300 text-sm tracking-wide uppercase"
-                >
-                    Book Now
-                </a>
-            </div>
-        </div>
-    );
-};
-
-
-
-
-const Services = () => {
-    return (
-        <section
-            id="services"
-           className="relative overflow-hidden py-24 px-6 bg-gradient-to-b from-[#fdf6f6]/100 to-transparent  text-[#3e2e3d]"
-      >
-            {/* Decorative Blurs */}
-            <div className="absolute inset-0 -z-10 pointer-events-none">
-                <div className="absolute top-[15%] left-[10%] w-[300px] h-[300px] bg-rose-100/40 blur-[100px] rounded-full" />
-                <div className="absolute bottom-[10%] right-[10%] w-[250px] h-[250px] bg-pink-200/30 blur-[80px] rounded-full" />
-            </div>
-
-            {/* Header */}
-            <motion.div
-                className="max-w-6xl mx-auto text-center mb-16"
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-                viewport={{ once: true }}
-            >
-                <h2 className="text-4xl md:text-5xl font-serif mb-4 tracking-tight relative">
-                    <span className="relative z-10">Our Services</span>
-                    <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-12 h-[2px] bg-[#3e2e3d] rounded-full opacity-40" />
-                </h2>
-                <p className="max-w-2xl mx-auto text-base md:text-lg text-[#5f4b5a]">
-                    Explore our curated treatments designed to enhance your natural beauty and inner balance.
-                </p>
-            </motion.div>
-
-            {/* Services Grid */}
-            <div className="max-w-6xl mx-auto grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                {serviceList.map((service, index) => (
-                    <ServiceCard key={index} {...service} />
+        <section className="relative overflow-hidden py-24 px-6 bg-gradient-to-b from-[#fdf6f6]/100 to-transparent  text-[#3e2e3d]"
+        ><div className="max-w-6xl mx-auto">
+                <h1 className="text-4xl font-serif mb-10 text-center">Our Services</h1>
+                {services.map((section) => (
+                    <div key={section.category} className="mb-12">
+                        <h2 className="text-2xl font-semibold mb-4 border-b border-[#e9d6d6] pb-1">
+                            {section.category}
+                        </h2>
+                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            {section.items.map((item, idx) => (
+                                <li
+                                    key={idx}
+                                    className="flex justify-between border border-[#eddcdc] px-4 py-3 rounded-xl backdrop-blur-sm bg-white/40"
+                                >
+                                    <span>{item.name}</span>
+                                    <span className="font-medium">{item.price}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
                 ))}
-            </div>
-
-
-            {/* CTA */}
-            <div className="text-center mt-20">
-                <a
-                    href="/book"
-                    className="inline-block bg-[#3e2e3d] text-white hover:bg-[#5f4b5a] transition-colors px-6 py-3 rounded-full text-sm uppercase tracking-wide shadow-md"
-                >
-                    Book Your Appointment
-                </a>
             </div>
         </section>
     );
 };
 
-export default Services;
+export default ServicesPage;

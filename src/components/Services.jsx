@@ -1,44 +1,66 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaSpa, FaUserMd, FaSun, FaFeatherAlt, FaHandHoldingHeart, FaLeaf } from "react-icons/fa";
+import { FaSpa, FaUserMd, FaSun, FaFeatherAlt, FaHandHoldingHeart, FaLeaf, FaCameraRetro, FaSnowflake } from "react-icons/fa";
+import { FaScissors  } from "react-icons/fa6"; // ✅ Valid scissors icon
+import { GiFingernail } from "react-icons/gi";
 
 const services = [
   {
-    title: "Facial Treatments",
-    description: "Rejuvenating facials tailored to your skin type using high-quality, gentle products.",
+    title: "Facials & Skin Treatments",
+    description: "Express, Hydrating, Acne, Glow, Anti-Aging, Microneedling, Chemical Peels, and more.",
     icon: <FaLeaf size={32} />,
-    detail: "We offer hydrating, anti-aging, and detox facials using premium botanical formulas for visible results."
+    detail:
+      "Explore our complete range including Express Facial, Glow with Steam, Collagen Boost Anti-Aging, Microneedling, Dermaplaning, Chemical Peels, HydraFacial, and LED Therapy. Tailored for every skin type."
   },
   {
-    title: "Body Massage",
-    description: "Relaxing and therapeutic massages designed to release tension and promote wellness.",
+    title: "Massage Therapy",
+    description: "Relaxation, Deep Tissue, Aromatherapy, Prenatal, and Foot Reflexology treatments.",
     icon: <FaSpa size={32} />,
-    detail: "Choose from Swedish, deep tissue, or hot stone therapy to relieve muscle tension and promote blood flow."
+    detail:
+      "Choose from Swedish, Deep Tissue, Hot Stone, Aromatherapy, Prenatal, Head/Shoulder massage, Foot Reflexology, or Cupping Therapy. Crafted to soothe, heal, and restore."
   },
   {
-    title: "Skin Therapy",
-    description: "Targeted treatments for acne, dryness, or uneven tone — personalized to your needs.",
-    icon: <FaSun size={32} />,
-    detail: "From chemical peels to hydration boosters, our licensed team uses safe and effective techniques."
+    title: "Nail Services",
+    description: "Manicures, Pedicures, Extensions, Nail Art, Paraffin, and French Tips.",
+    icon: <GiFingernail size={32} />,
+    detail:
+      "Classic or Shellac Mani/Pedi, Gel or Acrylic Extensions, Luxury Nail Art, French Tips, and Hydrating Paraffin Wax add-ons. Nails that express your style."
+  },
+  {
+    title: "Makeup Services",
+    description: "Event, Bridal, Photoshoots, Soft Glam, Airbrush & Male Grooming.",
+    icon: <FaSnowflake size={32} />,
+    detail:
+      "Signature Bridal, Engagement, Mehndi Looks, Graduation/Prom, Photoshoots, Airbrush techniques, and tailored Male Grooming sessions. Designed to highlight your best self."
   },
   {
     title: "Waxing & Hair Removal",
-    description: "Smooth, professional waxing services with minimal discomfort and long-lasting results.",
+    description: "Full-body waxing for men and women using gentle, effective methods.",
     icon: <FaFeatherAlt size={32} />,
-    detail: "We use hypoallergenic wax and soothing aftercare to ensure a clean, smooth finish every time."
+    detail:
+      "Threading, Facial, Arm, Leg, Bikini, Brazilian, Chest, and Full Body Wax available. Clean, smooth, and safe with minimal discomfort."
   },
   {
-    title: "Aesthetic Consultations",
-    description: "Meet 1-on-1 with our experts to plan your custom beauty and wellness routine.",
+    title: "Laser Hair Removal",
+    description: "Advanced sessions for permanent, pain-minimized results across all skin types.",
     icon: <FaUserMd size={32} />,
-    detail: "Book a consult to evaluate your skin goals, ask questions, and receive personalized care plans."
+    detail:
+      "Upper Lip to Full Body options. Safe for all skin tones using medical-grade equipment. Sessions recommended for long-term results."
   },
   {
-    title: "Healing Rituals",
-    description: "Holistic treatments combining touch, scent, and sound to calm body and mind.",
-    icon: <FaHandHoldingHeart size={32} />,
-    detail: "Our signature rituals include aromatherapy, warm towels, and mindfulness techniques."
+    title: "Hairstyling",
+    description: "From event updos to kids’ styling, blowouts, and braid designs.",
+    icon: <FaScissors size={32} />,
+    detail:
+      "Blow-dry, Curls, Braids, Updos, Bridal Styles, Kids Hair, Extensions Installation, Oil Treatments, and Scalp Detox available. Styled to perfection."
   },
+  {
+    title: "Photography Add-On",
+    description: "Capture your glow post-glam with our in-house studio.",
+    icon: <FaCameraRetro size={32} />,
+    detail:
+      "Post-Makeup Glam Shoots, Bridal Photography, Influencer Reels, Before & Afters, and Seasonal Backdrops. See yourself in your best light."
+  }
 ];
 
 const Services = () => {
@@ -46,7 +68,6 @@ const Services = () => {
 
   return (
     <section id="services" className="relative py-24 px-6 bg-gradient-to-b from-transparent to-[#fdf6f6] text-[#3e2e3d] overflow-hidden">
-
       <div className="relative z-10 max-w-7xl mx-auto text-center">
         <motion.h2
           className="text-4xl md:text-5xl font-serif mb-6"
@@ -84,7 +105,6 @@ const Services = () => {
         </div>
       </div>
 
-      {/* Modal */}
       <AnimatePresence>
         {active && (
           <motion.div
