@@ -27,32 +27,37 @@ varying vec2 vUv;
 
 void main() {
   float mr = min(uResolution.x, uResolution.y);
-  vec2 uv = (vUv.xy * 2.0 - 1.0) * uResolution.xy / mr;
+  vec2 uv = (vUv * 2.0 - 1.0) * uResolution.xy / mr;
   uv += (uMouse - vec2(0.5)) * uAmplitude;
 
   float d = -uTime * 0.5 * uSpeed;
   float a = 0.0;
+
   for (float i = 0.0; i < 8.0; ++i) {
     a += cos(i - d - a * uv.x);
     d += sin(uv.y * i + a);
   }
+
   d += uTime * 0.5 * uSpeed;
 
-  vec3 raw = vec3(
-    cos(uv.x * d) * 0.6 + 0.4,
-    cos(a + d) * 0.5 + 0.5,
-    sin(d - a) * 0.4 + 0.6
+  // Subtle, earthy shimmer pattern
+  vec3 wave = vec3(
+    0.6 + 0.2 * cos(uv.x * d),
+    0.5 + 0.3 * sin(a + d),
+    0.4 + 0.2 * cos(d - a)
   );
 
-  vec3 col = mix(vec3(1.0), raw, 0.5); // pastelize by blending toward white
-  col = mix(col, uColor, 0.4);         // blend with base pastel color
+  // Mix toward warm beige with subtle pastel blend
+  vec3 earthy = mix(vec3(0.92, 0.85, 0.78), wave, 0.35);  // warm base + motion
+  vec3 col = mix(earthy, uColor, 0.45);                   // uColor tint boost
 
   gl_FragColor = vec4(col, 1.0);
 }
 `;
 
+
 export default function Iridescence({
-  color = [0.92, 0.85, 0.88], // soft pastel pink
+  color = [0.88, 0.76, 0.68], // soft pastel pink
   speed = 1.0,
   amplitude = 0.1,
   mouseReact = true,

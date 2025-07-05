@@ -5,7 +5,7 @@ const Book = () => {
     return (
         <section
             id="book"
-            className="relative overflow-hidden py-24 px-6 bg-gradient-to-b from-[#fdf6f6]/100 to-transparent  text-[#3e2e3d]"
+            className="relative overflow-hidden py-24 px-6  text-[#3e2e3d]"
         >
             {/* Decorative Blurs */}
             <div className="absolute inset-0 -z-10 pointer-events-none">
@@ -21,7 +21,7 @@ const Book = () => {
                 transition={{ duration: 0.8, ease: "easeOut" }}
                 viewport={{ once: true }}
             >
-                <h2 className="text-4xl md:text-5xl font-serif mb-4 tracking-tight relative">
+                <h2 className="text-4xl font-serif mb-10 text-center">
                     <span className="relative z-10">Book an Appointment</span>
                     <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-12 h-[2px] bg-[#3e2e3d] rounded-full opacity-40" />
                 </h2>

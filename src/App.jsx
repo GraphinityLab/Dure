@@ -11,15 +11,16 @@ import Iridescence from "./components/Iridescence";
 
 function App() {
   return (
-    <div className="relative min-h-screen flex flex-col overflow-x-hidden bg-gradient-to-b from-[#fdf6f6]/100 to-transparent">
+    <div className="relative min-h-screen flex flex-col overflow-x-hidden bg-gradient-to-b from-[#FFF1E1] to-transparent">
       {/* Global Iridescence Background */}
       <div className="absolute inset-0 z-[-1] pointer-events-none">
         <Iridescence
-          color={[1.5, 0.5, 0.5]}
-          amplitude={0.2}
-          speed={0.3}
+          color={[0.88, 0.76, 0.68]}  // warm pastel beige-pink base
+          amplitude={0.18}
+          speed={0.25}
           mouseReact={true}
         />
+
       </div>
 
       {/* UI Layout */}

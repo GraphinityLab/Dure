@@ -6,7 +6,7 @@ import logo from "/icon.png";
 const pages = [
   { name: "About", href: "/about" },
   { name: "Services", href: "/services" },
-  { name: "Faq", href: "/Faq" },
+  { name: "Faq", href: "/faq" },
   { name: "Contact", href: "/contact" },
   { name: "Book Now", href: "/book-now", isCTA: true },
 ];
@@ -44,17 +44,15 @@ const Navbar = () => {
     };
   }, []);
 
-  const isDarkBackground = () => {
-    return ["hero", "gallery"].includes(activeSection); // customize per section background
-  };
+  const isDark = () => ["hero", "gallery"].includes(activeSection) && !scrolled;
 
-  const textColor = isDarkBackground() && !scrolled ? "text-white" : "text-[#3e2e3d]";
-  const hoverColor = isDarkBackground() && !scrolled ? "hover:opacity-80" : "hover:text-[#5f4b5a]";
+  const textColor = isDark() ? "text-white" : "text-[#3e2e3d]";
+  const hoverColor = isDark() ? "hover:opacity-80" : "hover:text-[#5e4438]";
 
   return (
-    <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-[#eae0df] backdrop-blur-md shadow-sm" : "bg-transparent"}`}>
+    <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-[#f5eee8]/90 backdrop-blur-md shadow-sm" : "bg-transparent"}`}>
       <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
-        {/* Logo & Brand (Link to "/") */}
+        {/* Logo */}
         <a href="/" className="flex items-center gap-3 group">
           <motion.img
             src={logo}
@@ -65,7 +63,7 @@ const Navbar = () => {
             transition={{ duration: 0.6, ease: "easeOut" }}
           />
           <motion.span
-            className={`text-xl font-serif transition-colors ${textColor}`}
+            className={`text-xl font-serif tracking-wide transition-colors ${textColor}`}
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.6 }}
@@ -75,13 +73,13 @@ const Navbar = () => {
         </a>
 
         {/* Desktop Navigation */}
-        <nav className={`hidden md:flex gap-8 items-center text-sm uppercase font-normal tracking-wide ${textColor}`}>
+        <nav className={`hidden md:flex gap-8 items-center text-sm uppercase font-medium ${textColor}`}>
           {pages.map(({ name, href, isCTA }) => (
             <a
               key={name}
               href={href}
-              className={`px-4 py-2 rounded-full transition-colors duration-300 ${isCTA
-                ? `${textColor} border ${textColor === "text-white" ? "border-white" : "border-[#3e2e3d]"} hover:bg-[#3e2e3d] hover:text-white`
+              className={`px-4 py-2 rounded-full transition-all duration-300 ${isCTA
+                ? "border border-[#3e2e3d] bg-[#3e2e3d] text-white hover:bg-[#5e4438]"
                 : hoverColor
               }`}
             >
@@ -105,14 +103,14 @@ const Navbar = () => {
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -10, opacity: 0 }}
-            className="md:hidden bg-[#fdf6f6] border-t border-[#e6dede] px-6 py-4 font-normal uppercase"
+            className="md:hidden bg-[#f5eee8] border-t border-[#e4d4ca] px-6 py-4 font-medium uppercase"
           >
-            <div className="divide-y divide-[#e6dede]">
+            <div className="divide-y divide-[#e4d4ca]">
               {pages.map(({ name, href }) => (
                 <a
                   key={name}
                   href={href}
-                  className="block text-center text-[#5f4b5a] py-3 hover:text-[#3e2e3d] transition-colors"
+                  className="block text-center text-[#5e4438] py-3 hover:text-[#3e2e3d] transition-colors"
                   onClick={() => setMobileOpen(false)}
                 >
                   {name}

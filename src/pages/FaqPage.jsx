@@ -127,7 +127,7 @@ const FAQPage = () => {
   };
 
   return (
-    <section className="relative overflow-hidden py-24 px-6 bg-gradient-to-b from-[#fdf6f6]/100 to-transparent  text-[#3e2e3d]"
+    <section className="relative overflow-hidden py-24 px-6 text-[#3e2e3d]"
       > <div className="max-w-5xl mx-auto">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
