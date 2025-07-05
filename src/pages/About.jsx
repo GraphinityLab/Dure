@@ -9,9 +9,9 @@ const About = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-4xl md:text-5xl font-serif mb-6 text-center"
+          className="text-4xl font-serif mb-10 text-center"
         >
-          STORY
+          Our Story 
         </motion.h1>
 
         <motion.div

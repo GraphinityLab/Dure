@@ -11,11 +11,11 @@ import Iridescence from "./components/Iridescence";
 
 function App() {
   return (
-    <div className="relative min-h-screen flex flex-col overflow-x-hidden">
+    <div className="relative min-h-screen flex flex-col overflow-x-hidden bg-gradient-to-b from-[#fdf6f6]/100 to-transparent">
       {/* Global Iridescence Background */}
       <div className="absolute inset-0 z-[-1] pointer-events-none">
         <Iridescence
-          color={[1.9, 1.0, 1]}
+          color={[1.5, 0.5, 0.5]}
           amplitude={0.2}
           speed={0.3}
           mouseReact={true}
@@ -29,6 +29,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Services />} />
+          <Route path="/services/:slug" element={<Services />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/book-now" element={<Book />} />
           <Route path="/faq" element={<FaqPage />} />
