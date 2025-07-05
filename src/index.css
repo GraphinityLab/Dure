@@ -1,4 +1,5 @@
 @import "tailwindcss";
+
 .vignette-overlay {
   background: radial-gradient(
     circle at center,
@@ -31,3 +32,4 @@
   font-weight: normal;
   font-style: normal;
 }
+
