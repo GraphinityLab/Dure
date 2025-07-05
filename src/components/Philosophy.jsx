@@ -5,7 +5,7 @@ const Philosophy = () => {
     return (
         <section
             id="philosophy"
-            className="relative py-24 px-6 bg-gradient-to-t from-[#fdf6f6]/0 to-[#fdf6f6] text-[#3e2e3d] overflow-hidden"
+            className="relative py-24 px-6 bg-gradient-to-t from-[#fdf6f6]/0 to-[#fdf6f6]/60 text-[#3e2e3d] overflow-hidden"
         >
             <div className="relative z-10 max-w-6xl mx-auto text-center">
                 <motion.h2
