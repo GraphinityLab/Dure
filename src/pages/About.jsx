@@ -9,7 +9,7 @@ const About = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-4xl font-serif mb-10 text-center"
+          className="text-4xl font-[Soligant] mb-10 text-center"
         >
           Our Story 
         </motion.h1>
@@ -29,7 +29,7 @@ const About = () => {
             This is more than a clinic. It’s a movement.
           </p>
 
-          <h2 className="text-3xl font-serif mt-12">Vision:</h2>
+          <h2 className="text-3xl font-[Soligant] mt-12">Vision:</h2>
 
           <p>
             Our Vision:
@@ -38,7 +38,7 @@ const About = () => {
             Whether you come to us for a relaxing steam facial, precise laser treatment, signature bridal makeover, or just a fresh set of brows we’re here to remind you that you are already enough, and everything we do is just the cherry on top.
           </p>
 
-          <h2 className="text-3xl font-serif mt-12">What Makes Us Different</h2>
+          <h2 className="text-3xl font-[Soligant] mt-12">What Makes Us Different</h2>
           <ul className="list-disc pl-5 space-y-2">
             <li>A Soulful Touch to Professional Care<br />We don’t just treat skin we uplift spirits.</li>
             <li>One-Stop Beauty Destination<br />From facials and steaming to nails, waxing, makeup, laser, signature makeup, hairstyling, and more it’s all here.</li>
@@ -51,7 +51,7 @@ const About = () => {
             This is where beauty meets purpose, and where every client becomes part of something bigger. We can’t wait to welcome you in.
           </p>
 
-          <h2 className="text-3xl font-serif mt-12">Our Philosophy</h2>
+          <h2 className="text-3xl font-[Soligant] mt-12">Our Philosophy</h2>
           <p>
             At the heart of everything we do is one simple belief:
             Every woman deserves to feel radiant, powerful, and deeply at home in her own skin.

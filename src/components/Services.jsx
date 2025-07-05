@@ -43,7 +43,7 @@ const Services = () => {
     <section id="services" className="relative py-24 px-6 bg-gradient-to-b from-transparent to-[#fdf6f6] text-[#3e2e3d] overflow-hidden">
       <div className="relative z-10 max-w-7xl mx-auto text-center">
         <motion.h2
-          className="text-4xl md:text-5xl font-serif mb-6"
+          className="text-4xl md:text-5xl font-[Soligant] mb-6"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}

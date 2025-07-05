@@ -25,11 +25,9 @@
   -webkit-clip-path: ellipse(100% 100% at 50% 0%);
   transition: clip-path 0.5s ease;
 }
-
 @font-face {
-  font-family: 'Soligant';
-  src: url('/font/Soligant.ttf') format('truetype');
+  font-family: "Soligant";
+  src: url("/font/soligant.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
-

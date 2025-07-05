@@ -63,7 +63,7 @@ const Navbar = () => {
             transition={{ duration: 0.6, ease: "easeOut" }}
           />
           <motion.span
-            className={`text-xl font-serif tracking-wide transition-colors ${textColor}`}
+            className={`text-2xl font-[Soligant] tracking-wide transition-colors ${textColor}`}
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.6 }}

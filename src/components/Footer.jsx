@@ -13,7 +13,7 @@ const Footer = () => {
 
         {/* Brand Summary */}
         <div className="z-10">
-          <h2 className="text-2xl font-serif text-[#3e2e3d] mb-4">Duré Aesthetics</h2>
+          <h2 className="text-2xl font-[Soligant] text-[#3e2e3d] mb-4">Duré Aesthetics</h2>
           <p className="leading-relaxed text-[#5f4b5a]/90">
             Gentle aesthetics tailored to your natural beauty. Discover our calm, minimalist approach to skincare and self-care.
           </p>

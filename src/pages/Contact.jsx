@@ -22,7 +22,7 @@ const Contact = () => {
         transition={{ duration: 0.8, ease: "easeOut" }}
         viewport={{ once: true }}
       >
-        <h2 className="text-4xl font-serif mb-10 text-center">
+        <h2 className="text-4xl font-[Soligant] mb-10 text-center">
           <span className="relative z-10">Get in Touch</span>
           <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-12 h-[2px] bg-[#3e2e3d] rounded-full opacity-40" />
         </h2>

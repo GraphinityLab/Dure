@@ -35,7 +35,7 @@ const Home = () => {
                     />
 
                     <motion.h1
-                        className="text-4xl md:text-5xl font-serif leading-tight text-white drop-shadow-md"
+                        className="text-4xl md:text-5xl font-[Soligant] leading-tight text-white drop-shadow-md"
                         initial={{ opacity: 0, y: 15 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3, duration: 0.6 }}
