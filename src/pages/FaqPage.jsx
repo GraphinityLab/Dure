@@ -144,7 +144,7 @@ const FAQPage = () => {
             <Link
               key={cat.slug}
               to={`/faq/${cat.slug}`}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border ${
+              className={`px-4 py-2 rounded-full text-sm font-[CaviarDreams] transition-all duration-200 border ${
                 activeTab === cat.slug
                   ? "bg-[#3e2e3d] text-white border-[#3e2e3d]"
                   : "bg-white/60 border-[#ecdede] hover:bg-[#f1eaea]"

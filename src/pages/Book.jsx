@@ -35,7 +35,7 @@ const Book = () => {
                 <form className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-sm mb-1 font-medium text-[#3e2e3d]">Full Name</label>
+                            <label className="block text-sm mb-1 font-[CaviarDreams] text-[#3e2e3d]">Full Name</label>
                             <input
                                 type="text"
                                 required
@@ -43,7 +43,7 @@ const Book = () => {
                             />
                         </div>
                         <div>
-                            <label className="block text-sm mb-1 font-medium text-[#3e2e3d]">Phone</label>
+                            <label className="block text-sm mb-1 font-[CaviarDreams] text-[#3e2e3d]">Phone</label>
                             <input
                                 type="tel"
                                 required
@@ -54,7 +54,7 @@ const Book = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-sm mb-1 font-medium text-[#3e2e3d]">Email</label>
+                            <label className="block text-sm mb-1 font-[CaviarDreams] text-[#3e2e3d]">Email</label>
                             <input
                                 type="email"
                                 required
@@ -62,7 +62,7 @@ const Book = () => {
                             />
                         </div>
                         <div>
-                            <label className="block text-sm mb-1 font-medium text-[#3e2e3d]">Preferred Service</label>
+                            <label className="block text-sm mb-1 font-[CaviarDreams] text-[#3e2e3d]">Preferred Service</label>
                             <select
                                 required
                                 className="w-full px-4 py-3 border border-[#e6dede] rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-[#3e2e3d] bg-white/70"
@@ -80,7 +80,7 @@ const Book = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-sm mb-1 font-medium text-[#3e2e3d]">Preferred Date</label>
+                            <label className="block text-sm mb-1 font-[CaviarDreams] text-[#3e2e3d]">Preferred Date</label>
                             <input
                                 type="date"
                                 required
@@ -88,7 +88,7 @@ const Book = () => {
                             />
                         </div>
                         <div>
-                            <label className="block text-sm mb-1 font-medium text-[#3e2e3d]">Preferred Time</label>
+                            <label className="block text-sm mb-1 font-[CaviarDreams] text-[#3e2e3d]">Preferred Time</label>
                             <input
                                 type="time"
                                 required
@@ -98,7 +98,7 @@ const Book = () => {
                     </div>
 
                     <div>
-                        <label className="block text-sm mb-1 font-medium text-[#3e2e3d]">Additional Notes</label>
+                        <label className="block text-sm mb-1 font-[CaviarDreams] text-[#3e2e3d]">Additional Notes</label>
                         <textarea
                             rows="4"
                             className="w-full px-4 py-3 border border-[#e6dede] rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-[#3e2e3d] bg-white/70"
@@ -108,7 +108,7 @@ const Book = () => {
 
                     <button
                         type="submit"
-                        className="w-full mt-4 px-6 py-3 rounded-full bg-[#3e2e3d] text-white hover:bg-[#5f4b5a] transition font-medium text-sm uppercase tracking-wide"
+                        className="w-full mt-4 px-6 py-3 rounded-full bg-[#3e2e3d] text-white hover:bg-[#5f4b5a] transition font-[CaviarDreams] text-sm uppercase tracking-wide"
                     >
                         Confirm Booking
                     </button>

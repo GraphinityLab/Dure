@@ -1,8 +1,10 @@
 import React from "react";
 import { motion } from "framer-motion";
+import Teams from "../components/Teams";
 
 const About = () => {
   return (
+    <>
     <section className="py-24 px-6 text-[#3e2e3d]">
       <div className="max-w-4xl mx-auto">
         <motion.h1
@@ -62,6 +64,8 @@ const About = () => {
         </motion.div>
       </div>
     </section>
+    <Teams showTeam={true} />
+    </>
   );
 };
 

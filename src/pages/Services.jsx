@@ -139,7 +139,7 @@ const ServicesPage = () => {
               <NavLink
                 key={i}
                 to={`/services/${categorySlug === "all" ? "" : categorySlug}`}
-                className={`px-5 py-2 rounded-full text-sm transition font-medium border ${
+                className={`px-5 py-2 rounded-full text-sm transition font-[CaviarDreams] border ${
                   activeTab === categorySlug
                     ? "bg-[#3e2e3d] text-white border-[#3e2e3d]"
                     : "border-[#d9caca] text-[#3e2e3d] hover:bg-[#f3eaea]"
@@ -164,7 +164,7 @@ const ServicesPage = () => {
                       className="flex justify-between border border-[#eddcdc] px-4 py-3 rounded-xl backdrop-blur-sm bg-white/40"
                     >
                       <span>{item.name}</span>
-                      <span className="font-medium">{item.price}</span>
+                      <span className="font-[CaviarDreams]">{item.price}</span>
                     </li>
                   ))}
                 </ul>
@@ -184,7 +184,7 @@ const ServicesPage = () => {
                       className="flex justify-between border border-[#eddcdc] px-4 py-3 rounded-xl backdrop-blur-sm bg-white/40"
                     >
                       <span>{item.name}</span>
-                      <span className="font-medium">{item.price}</span>
+                      <span className="font-[CaviarDreams]">{item.price}</span>
                     </li>
                   ))}
                 </ul>
