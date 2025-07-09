@@ -40,7 +40,7 @@ const previewServices = [
 
 const Services = () => {
   return (
-    <section id="services" className="relative py-24 px-6 bg-gradient-to-b from-transparent to-[#fdf6f6]/60 text-[#3e2e3d] overflow-hidden">
+    <section id="services" className="relative bg-[#f9f4ef] py-24 px-6 text-[#3e2e3d] overflow-hidden mask-top-curve">
       <div className="relative z-10 max-w-7xl mx-auto text-center">
         <motion.h2
           className="text-4xl md:text-5xl font-[Soligant] mb-6"
@@ -64,7 +64,7 @@ const Services = () => {
           {previewServices.map((s, idx) => (
             <motion.div
               key={idx}
-              className="bg-white/90 border border-[#e6dede] rounded-xl p-6 shadow-sm hover:shadow-md hover:scale-[1.03] transition-all cursor-default"
+              className="bg-white/90 border border-[#e6dede] rounded-xl p-6 shadow-sm hover:shadow-xl hover:scale-[1.03] transition-all cursor-default"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.1, duration: 0.5 }}

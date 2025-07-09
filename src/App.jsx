@@ -8,14 +8,16 @@ import Book from "./pages/Book";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Iridescence from "./components/Iridescence";
+import CartIcon from "./components/CartIcon"; 
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   return (
-    <div className="relative min-h-screen flex flex-col overflow-x-hidden bg-gradient-to-b from-[#FFF1E1] to-transparent">
+    <div className="relative min-h-screen flex flex-col overflow-x-hidden">
       {/* Global Iridescence Background */}
       <div className="absolute inset-0 z-[-1] pointer-events-none">
         <Iridescence
-          color={[0.88, 0.76, 0.68]}  // warm pastel beige-pink base
+          color={[0.88, 0.76, 0.50]}  // warm pastel beige-pink base
           amplitude={0.18}
           speed={0.25}
           mouseReact={true}
@@ -25,6 +27,7 @@ function App() {
 
       {/* UI Layout */}
       <Navbar />
+      <ScrollToTop />
       <main className="flex-grow bg-transparent z-0">
         <Routes>
           <Route path="/" element={<Home />} />
@@ -37,6 +40,7 @@ function App() {
           <Route path="/faq/:category" element={<FaqPage />} />
         </Routes>
       </main>
+      <CartIcon />
       <Footer />
     </div>
   );

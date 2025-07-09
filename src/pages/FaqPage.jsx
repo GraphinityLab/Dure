@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
+import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 
 const faqCategories = [
   {
@@ -117,35 +118,34 @@ const faqCategories = [
 
 const FAQPage = () => {
   const location = useLocation();
-  const activeTab = location.pathname.split("/").pop();
-  const selectedCategory =
-    faqCategories.find((c) => c.slug === activeTab) || faqCategories[0];
+  const activeSlug = location.pathname.split("/").pop();
+  const selected = faqCategories.find(c => c.slug === activeSlug) || faqCategories[0];
   const [expanded, setExpanded] = useState(null);
 
-  const toggleAccordion = (idx) => {
-    setExpanded(expanded === idx ? null : idx);
+  const toggle = (index) => {
+    setExpanded(expanded === index ? null : index);
   };
 
   return (
-    <section className="relative overflow-hidden py-24 px-6 text-[#3e2e3d]"
-      > <div className="max-w-5xl mx-auto">
+    <section className="relative overflow-hidden py-24 px-6 text-[#3e2e3d]">
+      <div className="max-w-5xl mx-auto">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-4xl font-[Soligant] mb-10 text-center"
+          className="text-5xl md:text-6xl font-[Soligant] mb-20 text-center tracking-tight"
         >
           Frequently Asked Questions
         </motion.h1>
 
-        {/* Tabs */}
+        {/* Category Tabs */}
         <div className="flex flex-wrap justify-center gap-3 mb-12">
           {faqCategories.map((cat) => (
             <Link
               key={cat.slug}
               to={`/faq/${cat.slug}`}
-              className={`px-4 py-2 rounded-full text-sm font-[CaviarDreams] transition-all duration-200 border ${
-                activeTab === cat.slug
+              className={`px-4 py-2 rounded-full text-sm font-[CaviarDreams] transition border ${
+                activeSlug === cat.slug
                   ? "bg-[#3e2e3d] text-white border-[#3e2e3d]"
                   : "bg-white/60 border-[#ecdede] hover:bg-[#f1eaea]"
               }`}
@@ -155,32 +155,36 @@ const FAQPage = () => {
           ))}
         </div>
 
-        {/* FAQ Accordion */}
+        {/* Accordion List */}
         <div className="space-y-4">
-          {selectedCategory.items.map((faq, idx) => (
+          {selected.items.map((faq, i) => (
             <motion.div
-              key={idx}
+              key={i}
               layout
-              className="bg-white/60 border border-[#ecdede] p-5 sm:p-6 rounded-xl shadow-md backdrop-blur-md cursor-pointer"
-              onClick={() => toggleAccordion(idx)}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.03 }}
+              transition={{ delay: i * 0.03 }}
+              className="bg-white/60 border border-[#ecdede] rounded-xl shadow-md backdrop-blur-md"
             >
-              <h3 className="text-base sm:text-lg font-semibold flex justify-between items-center">
+              <button
+                onClick={() => toggle(i)}
+                className="w-full text-left px-5 py-4 flex justify-between items-center font-semibold text-base sm:text-lg focus:outline-none"
+              >
                 {faq.question}
-                <span className="text-xl">{expanded === idx ? "−" : "+"}</span>
-              </h3>
+                <span className="text-xl text-[#7e5e54]">
+                  {expanded === i ? <FiChevronUp /> : <FiChevronDown />}
+                </span>
+              </button>
               <AnimatePresence>
-                {expanded === idx && (
-                  <motion.p
+                {expanded === i && (
+                  <motion.div
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: "auto" }}
                     exit={{ opacity: 0, height: 0 }}
-                    className="text-sm sm:text-base text-[#5e4a56] mt-3"
+                    className="px-5 pb-5 text-sm sm:text-base text-[#5e4a56]"
                   >
                     {faq.answer}
-                  </motion.p>
+                  </motion.div>
                 )}
               </AnimatePresence>
             </motion.div>

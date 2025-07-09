@@ -4,7 +4,6 @@ import { useEffect, useRef } from "react";
 const vertexShader = `
 attribute vec2 uv;
 attribute vec2 position;
-
 varying vec2 vUv;
 
 void main() {
@@ -30,36 +29,37 @@ void main() {
   vec2 uv = (vUv * 2.0 - 1.0) * uResolution.xy / mr;
   uv += (uMouse - vec2(0.5)) * uAmplitude;
 
-  float d = -uTime * 0.5 * uSpeed;
+  float timeShift = uTime * uSpeed * 0.25;
+  float d = -timeShift;
   float a = 0.0;
 
-  for (float i = 0.0; i < 8.0; ++i) {
+  for (float i = 0.0; i < 7.0; ++i) {
     a += cos(i - d - a * uv.x);
     d += sin(uv.y * i + a);
   }
 
-  d += uTime * 0.5 * uSpeed;
+  d += timeShift;
 
-  // Subtle, earthy shimmer pattern
+  // Delicate shimmer variation
   vec3 wave = vec3(
-    0.6 + 0.2 * cos(uv.x * d),
-    0.5 + 0.3 * sin(a + d),
-    0.4 + 0.2 * cos(d - a)
+    0.75 + 0.05 * cos(uv.x * d),
+    0.70 + 0.04 * sin(a + d),
+    0.68 + 0.03 * cos(d - a)
   );
 
-  // Mix toward warm beige with subtle pastel blend
-  vec3 earthy = mix(vec3(0.92, 0.85, 0.78), wave, 0.35);  // warm base + motion
-  vec3 col = mix(earthy, uColor, 0.45);                   // uColor tint boost
+  // Warm sand-beige foundation with elegant sage overlay
+  vec3 baseTone = vec3(0.93, 0.88, 0.80); // Soft warm beige
+  vec3 blended = mix(baseTone, wave, 0.3);
+  vec3 col = mix(blended, uColor, 0.35); // uColor could be muted sage
 
   gl_FragColor = vec4(col, 1.0);
 }
 `;
 
-
 export default function Iridescence({
-  color = [0.88, 0.76, 0.68], // soft pastel pink
-  speed = 1.0,
-  amplitude = 0.1,
+  color = [0.68, 0.75, 0.70], // muted sage green
+  speed = 0.4,
+  amplitude = 0.04,
   mouseReact = true,
   ...rest
 }) {
@@ -71,13 +71,13 @@ export default function Iridescence({
     const ctn = ctnDom.current;
     const renderer = new Renderer();
     const gl = renderer.gl;
-    gl.clearColor(0.97, 0.94, 0.96, 1.0); // pastel rose-beige background
+
+    gl.clearColor(0.95, 0.91, 0.86, 1.0); // Luxury background tone
 
     let program;
 
     function resize() {
-      const scale = 1;
-      renderer.setSize(ctn.offsetWidth * scale, ctn.offsetHeight * scale);
+      renderer.setSize(ctn.offsetWidth, ctn.offsetHeight);
       if (program) {
         program.uniforms.uResolution.value = new Color(
           gl.canvas.width,
@@ -87,7 +87,7 @@ export default function Iridescence({
       }
     }
 
-    window.addEventListener("resize", resize, false);
+    window.addEventListener("resize", resize);
     resize();
 
     const geometry = new Triangle(gl);
@@ -138,19 +138,11 @@ export default function Iridescence({
     return () => {
       cancelAnimationFrame(animateId);
       window.removeEventListener("resize", resize);
-      if (mouseReact) {
-        ctn.removeEventListener("mousemove", handleMouseMove);
-      }
+      if (mouseReact) ctn.removeEventListener("mousemove", handleMouseMove);
       ctn.removeChild(gl.canvas);
       gl.getExtension("WEBGL_lose_context")?.loseContext();
     };
   }, [color, speed, amplitude, mouseReact]);
 
-  return (
-    <div
-      ref={ctnDom}
-      className="iridescence-container"
-      {...rest}
-    />
-  );
+  return <div ref={ctnDom} className="iridescence-container" {...rest} />;
 }
