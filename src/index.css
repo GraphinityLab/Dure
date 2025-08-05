@@ -33,7 +33,8 @@
 
 @font-face {
   font-family: "Soligant";
-  src: url("/font/soligant.ttf") format("truetype");
+  /* FIX: Changed 'soligant.ttf' to 'Soligant.ttf' to match file casing */
+  src: url("/font/Soligant.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }

@@ -1,39 +1,86 @@
-import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import { motion } from "framer-motion";
-import { useCart } from "../context/CartContext";
+// src/components/Book.jsx
+// This component provides the client-side booking form.
+// It now sends service_name directly to the backend.
+// Cart removal logic updated to use service_id for robustness.
 
+import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
+import axiosInstance from '../utils/axiosInstance';
+import { useCart } from "../context/CartContext";
+import { motion } from "framer-motion";
 const Book = () => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const preselectedService = decodeURIComponent(params.get("service") || "");
-  const { cart, removeService } = useCart();
+
+  const { cart, removeService, clearCart } = useCart();
 
   const [formData, setFormData] = useState({
     fullName: "",
     phone: "",
     email: "",
-    service: preselectedService,
     date: "",
     time: "",
     notes: "",
   });
+
+  const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const submission = {
-      ...formData,
-      selectedServices: cart,
-    };
+    setMessage('');
+    setLoading(true);
 
-    console.log("Booking submitted:", submission);
-    // Connect to backend/email service
+    if (cart.length === 0) {
+      setMessage("Please add at least one service to your cart before booking.");
+      setLoading(false);
+      return;
+    }
+
+    const { fullName, phone, email, date, time, notes } = formData;
+    const fullAppointmentTime = `${date}T${time}:00`;
+
+    try {
+      for (const serviceItem of cart) {
+        const bookingData = {
+          client_name: fullName,
+          client_email: email,
+          service_name: serviceItem.name, // Sending serviceItem.name as service_name
+          appointment_time: fullAppointmentTime,
+          notes: notes,
+        };
+
+        const response = await axiosInstance.post('/book', bookingData);
+
+        if (response.status !== 201) {
+          throw new Error(response.data.message || `Failed to book service: ${serviceItem.name}`);
+        }
+      }
+
+      setMessage('All appointments booked successfully and are pending admin approval. You will receive an email shortly.');
+      clearCart();
+      setFormData({
+        fullName: "",
+        phone: "",
+        email: "",
+        date: "",
+        time: "",
+        notes: "",
+      });
+
+    } catch (error) {
+      console.error('Error submitting booking:', error);
+      setMessage(`Booking failed: ${error.message || 'An unknown error occurred. Please try again.'}`);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -76,9 +123,9 @@ const Book = () => {
                   <p className="text-xs text-[#9c8b92]">{item.category}</p>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="text-sm font-[CaviarDreams] text-[#7e5e54]">{item.price}</span>
+                  <span className="text-sm font-[CaviarDreams] text-[#7e5e54]">${parseFloat(item.price).toFixed(2)}</span>
                   <button
-                    onClick={() => removeService(item.name)}
+                    onClick={() => removeService(item.service_id)} // <--- IMPORTANT CHANGE: Passing item.service_id
                     className="text-xs text-red-400 hover:text-red-600"
                   >
                     Remove
@@ -95,74 +142,80 @@ const Book = () => {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm mb-1 font-[CaviarDreams]">Full Name</label>
+              <label htmlFor="fullName" className="block text-sm mb-1 font-[CaviarDreams]">Full Name</label>
               <input
                 type="text"
+                id="fullName"
                 name="fullName"
                 required
                 value={formData.fullName}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-[#e6dede] rounded-full text-sm bg-white/70 focus:ring-2 focus:ring-[#3e2e3d]"
+                className="w-full px-4 py-3 border border-[#e6dede] rounded-full text-sm bg-white/70 focus:ring-2 focus:ring-[#3e2e3d] focus:outline-none"
               />
             </div>
             <div>
-              <label className="block text-sm mb-1 font-[CaviarDreams]">Phone</label>
+              <label htmlFor="phone" className="block text-sm mb-1 font-[CaviarDreams]">Phone</label>
               <input
                 type="tel"
+                id="phone"
                 name="phone"
                 required
                 value={formData.phone}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-[#e6dede] rounded-full text-sm bg-white/70 focus:ring-2 focus:ring-[#3e2e3d]"
+                className="w-full px-4 py-3 border border-[#e6dede] rounded-full text-sm bg-white/70 focus:ring-2 focus:ring-[#3e2e3d] focus:outline-none"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm mb-1 font-[CaviarDreams]">Email</label>
+              <label htmlFor="email" className="block text-sm mb-1 font-[CaviarDreams]">Email</label>
               <input
                 type="email"
+                id="email"
                 name="email"
                 required
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-[#e6dede] rounded-full text-sm bg-white/70 focus:ring-2 focus:ring-[#3e2e3d]"
+                className="w-full px-4 py-3 border border-[#e6dede] rounded-full text-sm bg-white/70 focus:ring-2 focus:ring-[#3e2e3d] focus:outline-none"
               />
             </div>
             <div>
-              <label className="block text-sm mb-1 font-[CaviarDreams]">Preferred Date</label>
+              <label htmlFor="date" className="block text-sm mb-1 font-[CaviarDreams]">Preferred Date</label>
               <input
                 type="date"
+                id="date"
                 name="date"
                 required
                 value={formData.date}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-[#e6dede] rounded-full text-sm bg-white/70 focus:ring-2 focus:ring-[#3e2e3d]"
+                className="w-full px-4 py-3 border border-[#e6dede] rounded-full text-sm bg-white/70 focus:ring-2 focus:ring-[#3e2e3d] focus:outline-none"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm mb-1 font-[CaviarDreams]">Preferred Time</label>
+              <label htmlFor="time" className="block text-sm mb-1 font-[CaviarDreams]">Preferred Time</label>
               <input
                 type="time"
+                id="time"
                 name="time"
                 required
                 value={formData.time}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-[#e6dede] rounded-full text-sm bg-white/70 focus:ring-2 focus:ring-[#3e2e3d]"
+                className="w-full px-4 py-3 border border-[#e6dede] rounded-full text-sm bg-white/70 focus:ring-2 focus:ring-[#3e2e3d] focus:outline-none"
               />
             </div>
             <div>
-              <label className="block text-sm mb-1 font-[CaviarDreams]">Additional Notes</label>
+              <label htmlFor="notes" className="block text-sm mb-1 font-[CaviarDreams]">Additional Notes</label>
               <textarea
+                id="notes"
                 name="notes"
                 rows="4"
                 value={formData.notes}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-[#e6dede] rounded-2xl text-sm bg-white/70 focus:ring-2 focus:ring-[#3e2e3d]"
+                className="w-full px-4 py-3 border border-[#e6dede] rounded-2xl text-sm bg-white/70 focus:ring-2 focus:ring-[#3e2e3d] focus:outline-none"
                 placeholder="Let us know anything else you'd like to share..."
               />
             </div>
@@ -170,11 +223,18 @@ const Book = () => {
 
           <button
             type="submit"
-            className="w-full mt-4 px-6 py-3 rounded-full bg-[#3e2e3d] text-white hover:bg-[#5f4b5a] transition font-[CaviarDreams] text-sm uppercase tracking-wide"
+            disabled={loading || cart.length === 0}
+            className="w-full mt-4 px-6 py-3 rounded-full bg-[#3e2e3d] text-white hover:bg-[#5f4b5a] transition font-[CaviarDreams] text-sm uppercase tracking-wide disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Confirm Booking
+            {loading ? 'Confirming...' : 'Confirm Booking'}
           </button>
         </form>
+
+        {message && (
+          <p className={`mt-6 text-center text-sm ${message.includes('success') ? 'text-green-600' : 'text-red-600'}`}>
+            {message}
+          </p>
+        )}
       </div>
     </section>
   );
