@@ -1,19 +1,23 @@
 // salon-backend/controllers/bookingController.js
-// This file contains the business logic for handling appointment booking requests using ES Modules.
-// UPDATED to store service_name directly instead of service_id.
+// This controller handles all logic for creating a new appointment booking.
+// It now works with a dynamic timeslots table.
 
-import pool from '../utils/db.js';      // Import the database connection pool
+import pool from '../utils/db.js'; // Import the database connection pool
 import { transporter, adminEmail } from '../utils/email.js'; // Import email transporter and admin email
+import moment from 'moment'; // Import moment.js for date handling
 
-// Controller function to create a new appointment booking.
-const createBooking = async (req, res) => {
-    // Destructure required fields from the request body.
-    // Now expecting 'service_name' directly from the frontend.
-    const { client_name, client_email, service_name, appointment_time, notes } = req.body; // <--- CHANGED HERE
+/**
+ * Controller function to handle a new appointment booking.
+ * It ensures data integrity by using a database transaction.
+ */
+export const createBooking = async (req, res) => {
+    // Destructure all client and booking fields from the request body.
+    // client_first_name and client_last_name are now included.
+    const { client_first_name, client_last_name, client_email, client_phone, service_name, appointment_time, notes, address, city, postal_code } = req.body;
 
     // Basic input validation: Ensure all mandatory fields are provided.
-    if (!client_name || !client_email || !service_name || !appointment_time) { // <--- CHANGED HERE
-        return res.status(400).json({ message: 'All required fields are missing: client_name, client_email, service_name, appointment_time.' }); // <--- CHANGED HERE
+    if (!client_first_name || !client_last_name || !client_email || !client_phone || !service_name || !appointment_time) {
+        return res.status(400).json({ message: 'Missing required booking information: client_first_name, client_last_name, client_email, client_phone, service_name, appointment_time.' });
     }
 
     let connection;
@@ -21,26 +25,51 @@ const createBooking = async (req, res) => {
         connection = await pool.getConnection();
         await connection.beginTransaction();
 
-        // Format the appointment_time string to a MariaDB DATETIME compatible format.
-        const formattedAppointmentTime = new Date(appointment_time).toISOString().slice(0, 19).replace('T', ' ');
+        // 1. Find or Create Client
+        // Check if a client with this email already exists.
+        let [clientRows] = await connection.execute('SELECT client_id FROM clients WHERE email = ?', [client_email]);
+        let clientId;
 
-        // Removed the SELECT service name query, as service_name is directly provided by frontend.
-        // const [serviceRows] = await connection.execute('SELECT name FROM services WHERE service_id = ?', [service_id]);
-        // if (serviceRows.length === 0) {
-        //     await connection.rollback();
-        //     return res.status(400).json({ message: 'Invalid service_id provided.' });
-        // }
-        // const serviceName = serviceRows[0].name; // This is now service_name from req.body
+        if (clientRows.length > 0) {
+            // If client exists, get their ID and update their information.
+            clientId = clientRows[0].client_id;
+            await connection.execute(
+                'UPDATE clients SET first_name = ?, last_name = ?, phone_number = ?, address = ?, city = ?, postal_code = ? WHERE client_id = ?',
+                [client_first_name, client_last_name, client_phone, address || null, city || null, postal_code || null, clientId]
+            );
+        } else {
+            // If not, create a new client and get the new ID.
+            const [clientResult] = await connection.execute(
+                'INSERT INTO clients (first_name, last_name, email, phone_number, address, city, postal_code) VALUES (?, ?, ?, ?, ?, ?, ?)',
+                [client_first_name, client_last_name, client_email, client_phone, address || null, city || null, postal_code || null]
+            );
+            clientId = clientResult.insertId;
+        }
 
-        // SQL query to insert the new appointment into the 'appointments' table.
-        // Now inserting 'service_name' directly.
+        // 2. Find Service ID and Duration
+        const [serviceRows] = await connection.execute('SELECT service_id, duration_minutes FROM services WHERE name = ?', [service_name]);
+        if (serviceRows.length === 0) {
+            await connection.rollback();
+            return res.status(400).json({ message: 'Invalid service name provided.' });
+        }
+        const serviceId = serviceRows[0].service_id;
+        const durationMinutes = serviceRows[0].duration_minutes;
+
+        // 3. Calculate End Time
+        const startDate = new Date(appointment_time);
+        const endDate = new Date(startDate.getTime() + durationMinutes * 60000);
+        
+        const formattedStartTime = startDate.toTimeString().slice(0, 5);
+        const formattedEndTime = endDate.toTimeString().slice(0, 5);
+        
+        const formattedAppointmentDate = startDate.toISOString().split('T')[0];
+
+        // 4. Insert the new appointment
         const sql = `
-            INSERT INTO appointments (client_name, client_email, service_name, appointment_time, status, notes)
-            VALUES (?, ?, ?, ?, 'pending', ?)
+            INSERT INTO appointments (client_id, service_id, appointment_date, start_time, end_time, notes, status)
+            VALUES (?, ?, ?, ?, ?, ?, 'pending')
         `;
-        // Pass service_name directly to the values array.
-        const values = [client_name, client_email, service_name, formattedAppointmentTime, notes]; // <--- CHANGED HERE
-
+        const values = [clientId, serviceId, formattedAppointmentDate, formattedStartTime, formattedEndTime, notes];
         const [result] = await connection.execute(sql, values);
         const newAppointmentId = result.insertId;
 
@@ -55,10 +84,15 @@ const createBooking = async (req, res) => {
                 <p>Hello Admin,</p>
                 <p>A new appointment has been requested:</p>
                 <ul>
-                    <li><strong>Client Name:</strong> ${client_name}</li>
+                    <li><strong>Client Name:</strong> ${client_first_name} ${client_last_name}</li>
                     <li><strong>Client Email:</strong> ${client_email}</li>
-                    <li><strong>Service:</strong> ${service_name}</li> {/* Use service_name here */}
-                    <li><strong>Date & Time:</strong> ${new Date(appointment_time).toLocaleString()}</li>
+                    <li><strong>Client Phone:</strong> ${client_phone}</li>
+                    <li><strong>Client Address:</strong> ${address || 'N/A'}</li>
+                    <li><strong>City:</strong> ${city || 'N/A'}</li>
+                    <li><strong>Postal Code:</strong> ${postal_code || 'N/A'}</li>
+                    <li><strong>Service:</strong> ${service_name}</li>
+                    <li><strong>Date:</strong> ${formattedAppointmentDate}</li>
+                    <li><strong>Time:</strong> ${formattedStartTime} - ${formattedEndTime}</li>
                     <li><strong>Notes:</strong> ${notes || 'N/A'}</li>
                     <li><strong>Status:</strong> Pending</li>
                 </ul>
@@ -94,4 +128,42 @@ const createBooking = async (req, res) => {
     }
 };
 
-export default createBooking;
+/**
+ * Function to calculate and return available time slots for a specific date
+ */
+export const getAvailability = async (req, res) => {
+    const { date } = req.query;
+
+    if (!date) {
+        return res.status(400).json({ message: 'Date is required.' });
+    }
+
+    let connection;
+    try {
+        connection = await pool.getConnection();
+
+        const dayOfWeek = moment(date).format('dddd');
+
+        const [allSlots] = await connection.execute('SELECT time_slot FROM timeslots WHERE day_of_week = ?', [dayOfWeek]);
+        const allAvailableSlots = allSlots.map(slot => slot.time_slot.substring(0, 5));
+
+        const [existingAppointments] = await connection.execute(
+            'SELECT start_time FROM appointments WHERE appointment_date = ?',
+            [date]
+        );
+
+        const bookedTimes = existingAppointments.map(app => app.start_time.substring(0, 5));
+
+        const availableSlots = allAvailableSlots.filter(
+            slot => !bookedTimes.includes(slot)
+        );
+
+        res.status(200).json({ date, slots: availableSlots });
+    } catch (error) {
+        console.error('Error fetching availability:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    } finally {
+        if (connection) connection.release();
+    }
+};
+
