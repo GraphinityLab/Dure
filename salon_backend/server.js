@@ -50,35 +50,46 @@ app.use('/api', apiRoutes);
 // This asynchronous function is a helper for initial setup.
 // Its purpose is to create the very first admin user account in the 'admins' table.
 // This function should ONLY be executed ONCE during the application's initial deployment/setup.
-async function createInitialAdminUser(username, password, email) {
-    let connection; // Declare connection variable to ensure it's properly released.
-    try {
-        connection = await pool.getConnection(); // Obtain a database connection from the pool.
-        // Hash the provided plain-text password using bcryptjs before storing it.
-        // Hashing is crucial for security; it prevents storing passwords in plain text.
-        const hashedPassword = await bcrypt.hash(password, 10); // 10 is a good default for salt rounds.
-        const sql = `
-            INSERT INTO admins (username, password_hash, email)
-            VALUES (?, ?, ?)
-        `;
-        const values = [username, hashedPassword, email];
-        await connection.execute(sql, values); // Execute the SQL insert query.
-        console.log(`Admin user '${username}' created successfully.`);
-    } catch (error) {
-        // Handle specific error case: if a user with the same username or email already exists.
-        if (error.code === 'ER_DUP_ENTRY') {
-            console.warn(`Admin user '${username}' or email '${email}' already exists.`);
-        } else {
-            console.error('Error creating initial admin user:', error);
-        }
-    } finally {
-        // Ensure the database connection is always released back to the pool,
-        // even if an error occurred, to prevent connection leaks.
-        if (connection) {
-            connection.release();
-        }
-    }
-}
+// Function to create an initial admin user in the database.
+// This is typically used for first-time setup or seeding.
+// async function createInitialAdminUser(email, username, password, role_id) {
+//     let connection; // Declare connection variable to ensure it's properly released.
+//     try {
+//         connection = await pool.getConnection(); // Obtain a database connection from the pool.
+        
+//         // Hash the provided plain-text password using bcryptjs before storing it.
+//         // Hashing is crucial for security; it prevents storing passwords in plain text.
+//         const hashedPassword = await bcrypt.hash(password, 10); // 10 is a good default for salt rounds.
+
+//         // The SQL query and values have been corrected.
+//         // The SQL statement now includes all four columns: email, username, hashed_password, and role_id.
+//         // The values array now correctly matches the order of the columns in the SQL statement.
+//         const sql = `
+//             INSERT INTO users (email, username, hashed_password, role_id)
+//             VALUES (?, ?, ?, ?)
+//         `;
+//         const values = [email, username, hashedPassword, role_id];
+
+//         await connection.execute(sql, values); // Execute the SQL insert query.
+//         console.log(`Admin user '${username}' created successfully.`);
+//     } catch (error) {
+//         // Handle specific error case: if a user with the same username or email already exists.
+//         if (error.code === 'ER_DUP_ENTRY') {
+//             // Note: The original code's warning message was slightly incorrect. 
+//             // It's a duplicate entry error, not necessarily just the username.
+//             console.warn(`Admin user or email already exists. Skipping creation.`);
+//         } else {
+//             console.error('Error creating initial admin user:', error);
+//         }
+//     } finally {
+//         // Ensure the database connection is always released back to the pool,
+//         // even if an error occurred, to prevent connection leaks.
+//         if (connection) {
+//             connection.release();
+//         }
+//     }
+// }
+
 
 // --- Initial Admin User Creation (IMPORTANT SECURITY NOTE) ---
 // !!! DANGER ZONE: This line below is for ONE-TIME initial setup only.
@@ -91,8 +102,7 @@ async function createInitialAdminUser(username, password, email) {
 // !!! 5. After you see the "Admin user created successfully" message in the console,
 // !!!    IMMEDIATELY COMMENT THIS LINE OUT AGAIN and save server.js.
 // !!! Leaving this uncommented in a production environment is a severe security vulnerability.
-// createInitialAdminUser('admin', 'test123', 'admin@graphinitylab.com');
-
+//  createInitialAdminUser('admin@graphinitylab.com', 'admin', 'test123', 1);
 
 
 // async function createInitialUser(username, password) {
@@ -127,6 +137,73 @@ async function createInitialAdminUser(username, password, email) {
 
 // // Example usage:
 // createInitialUser('testuser', 'test123');
+
+
+
+const staffSeedData = [
+  {
+    email: "testadmin@example.com",
+    username: "test",
+    password: "admin123",
+    role_id: 1,
+    first_name: "Test",
+    last_name: "User",
+    address: "1234 Main St",
+    city: "Brampton", 
+    province: "ON",
+    postal_code: "M1A1A1",
+  },
+ 
+];
+
+// Function to seed multiple staff
+async function seedStaff(staffList) {
+  let connection;
+  try {
+    connection = await pool.getConnection();
+
+    for (const staff of staffList) {
+      try {
+        const hashedPassword = await bcrypt.hash(staff.password, 10);
+
+        const sql = `
+          INSERT INTO staff 
+          (email, username, hashed_password, role_id, first_name, last_name, address, city, province, postal_code)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `;
+        const values = [
+          staff.email,
+          staff.username,
+          hashedPassword,
+          staff.role_id,
+          staff.first_name,
+          staff.last_name,
+          staff.address,
+          staff.city,
+          staff.province,
+          staff.postal_code,
+        ];
+
+        await connection.execute(sql, values);
+        console.log(`Staff '${staff.username}' created successfully.`);
+      } catch (error) {
+        if (error.code === "ER_DUP_ENTRY") {
+          console.warn(`Staff '${staff.username}' already exists. Skipping.`);
+        } else {
+          console.error(`Error creating staff '${staff.username}':`, error);
+        }
+      }
+    }
+  } catch (error) {
+    console.error("Error connecting to DB for staff seeding:", error);
+  } finally {
+    if (connection) connection.release();
+  }
+}
+
+// --- Seed staff (run once) ---
+seedStaff(staffSeedData);
+
 
 // --- Start the Express Server ---
 // Make the Express application listen for incoming HTTP requests on the specified PORT.
