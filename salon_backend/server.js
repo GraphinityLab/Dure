@@ -25,7 +25,7 @@ dotenv.config();
 const app = express();
 // Define the port on which the server will listen.
 // It uses the PORT variable from the .env file, or defaults to 5000 if not specified.
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 4000;
 
 // --- Global Middleware Configuration ---
 // Configure CORS (Cross-Origin Resource Sharing) to allow requests from your frontend.

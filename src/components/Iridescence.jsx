@@ -72,7 +72,10 @@ export default function Iridescence({
     const renderer = new Renderer();
     const gl = renderer.gl;
 
-    gl.clearColor(0.95, 0.91, 0.86, 1.0); // Luxury background tone
+    // Transparent background to avoid white clipping on pages with their own backgrounds
+    gl.clearColor(0.0, 0.0, 0.0, 0.0);
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    gl.enable(gl.BLEND);
 
     let program;
 
@@ -136,11 +139,35 @@ export default function Iridescence({
     }
 
     return () => {
-      cancelAnimationFrame(animateId);
+      // Cancel animation frame
+      if (animateId) {
+        cancelAnimationFrame(animateId);
+        animateId = null;
+      }
+      
+      // Remove event listeners
       window.removeEventListener("resize", resize);
-      if (mouseReact) ctn.removeEventListener("mousemove", handleMouseMove);
-      ctn.removeChild(gl.canvas);
-      gl.getExtension("WEBGL_lose_context")?.loseContext();
+      if (mouseReact && ctn) {
+        ctn.removeEventListener("mousemove", handleMouseMove);
+      }
+      
+      // Clean up canvas
+      if (ctn && gl.canvas && ctn.contains(gl.canvas)) {
+        ctn.removeChild(gl.canvas);
+      }
+      
+      // Release WebGL context
+      try {
+        const loseContext = gl.getExtension("WEBGL_lose_context");
+        if (loseContext) {
+          loseContext.loseContext();
+        }
+      } catch (e) {
+        // Ignore cleanup errors
+      }
+      
+      // Clear references
+      program = null;
     };
   }, [color, speed, amplitude, mouseReact]);
 

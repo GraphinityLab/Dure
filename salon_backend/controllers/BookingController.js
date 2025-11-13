@@ -220,16 +220,14 @@ export const createBooking = async (req, res) => {
 
 /**
  * Function to calculate and return available time slots for a specific date
- * Now supports configurable slot intervals (e.g., 15, 30, 45 minutes).
+ * Uses the timeslots table from the database to get available slots for the day of week
  */
 export const getAvailability = async (req, res) => {
-    const { date, service_name, interval } = req.query;
+    const { date, service_name } = req.query;
 
     if (!date || !service_name) {
         return res.status(400).json({ message: 'Date and service_name are required.' });
     }
-
-    const slotInterval = parseInt(interval, 10) || 30;
 
     let connection;
     try {
@@ -245,24 +243,29 @@ export const getAvailability = async (req, res) => {
         }
         const serviceDuration = serviceRows[0].duration_minutes;
 
-        // Business hours
-        const businessOpen = 9;   // 9 AM
-        const businessClose = 18; // 6 PM
+        // Get day of week from the date (e.g., 'Monday', 'Tuesday', etc.)
+        const dateObj = moment(date);
+        const dayOfWeek = dateObj.format('dddd'); // Returns full day name like 'Monday', 'Tuesday', etc.
 
-        // Explicit business open/close times as Date objects
-        const businessOpenTime = moment(`${date}T${businessOpen.toString().padStart(2, '0')}:00`).toDate();
-        const businessCloseTime = moment(`${date}T${businessClose.toString().padStart(2, '0')}:00`).toDate();
+        // Get available time slots from the timeslots table for this day of week
+        const [timeslotRows] = await connection.execute(
+            'SELECT time_slot FROM timeslots WHERE day_of_week = ? ORDER BY time_slot ASC',
+            [dayOfWeek]
+        );
 
-        const allSlots = [];
-        for (let hour = businessOpen; hour < businessClose; hour++) {
-            for (let min = 0; min < 60; min += slotInterval) {
-                allSlots.push(
-                    `${hour.toString().padStart(2, '0')}:${min.toString().padStart(2, '0')}`
-                );
-            }
+        if (timeslotRows.length === 0) {
+            // No timeslots configured for this day - return empty array
+            return res.status(200).json({ date, slots: [] });
         }
 
-        // Get confirmed appointments
+        // Convert database time_slot format (HH:mm:ss) to HH:mm format
+        const allSlots = timeslotRows.map(row => {
+            const timeStr = row.time_slot;
+            // Handle both 'HH:mm:ss' and 'HH:mm' formats
+            return timeStr.includes(':') ? timeStr.substring(0, 5) : timeStr;
+        });
+
+        // Get confirmed appointments for this date
         const [confirmedAppointments] = await connection.execute(
             'SELECT start_time, end_time FROM appointments WHERE appointment_date = ? AND status = "confirmed"',
             [date]
@@ -273,17 +276,27 @@ export const getAvailability = async (req, res) => {
             end: moment(app.end_time, 'HH:mm:ss').toDate()
         }));
 
-        // Filter available slots
-        const availableSlots = allSlots.filter(slot => {
-            const slotStart = moment(`${date}T${slot}`).toDate();
+        // Filter available slots - check if service can fit and doesn't overlap with confirmed appointments
+        const availableSlots = allSlots.filter((slot) => {
+            const slotStart = moment(`${date}T${slot}:00`).toDate();
             const slotEnd = moment(slotStart).add(serviceDuration, 'minutes').toDate();
 
-            // ✅ ensure slot starts after open and ends before or at closing
-            if (slotStart < businessOpenTime) return false;
-            if (slotEnd > businessCloseTime) return false;
-
-            // ✅ exclude overlaps
-            return !bookedIntervals.some(b => slotStart < b.end && slotEnd > b.start);
+            // Check if service can complete - ensure it doesn't extend too far past the last available slot
+            // Get the last available slot time
+            const lastSlot = allSlots[allSlots.length - 1];
+            const lastSlotTime = moment(`${date}T${lastSlot}:00`).toDate();
+            
+            // Allow services that can start at this slot and complete within a reasonable time
+            // We'll allow services that end up to 2 hours after the last slot (for longer services)
+            const maxAllowedEndTime = moment(lastSlotTime).add(120, 'minutes').toDate();
+            if (slotEnd > maxAllowedEndTime) {
+                return false;
+            }
+            
+            // Exclude overlaps with confirmed appointments
+            const hasOverlap = bookedIntervals.some(b => slotStart < b.end && slotEnd > b.start);
+            
+            return !hasOverlap;
         });
 
         res.status(200).json({ date, slots: availableSlots });

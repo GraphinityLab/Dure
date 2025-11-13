@@ -1,0 +1,23 @@
+{
+  "name": "Duré Aesthetics",
+  "short_name": "Duré",
+  "description": "A tranquil beauty studio offering premium treatments and serene self-care",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f9f4ef",
+  "theme_color": "#3e2e3d",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    }
+  ]
+}
+

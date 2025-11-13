@@ -56,7 +56,22 @@
 
     <!-- Manifest (optional) -->
     <link rel="manifest" href="/site.webmanifest" />
-    <link href="/src/*.css" rel="stylesheet">
+    
+    <!-- Preload critical fonts -->
+    <link rel="preload" href="/font/Soligant.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
+    <link rel="preload" href="/font/CaviarDreams.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
+    
+    <!-- Preload critical images -->
+    <link rel="preload" href="/dure_bg.png" as="image" fetchpriority="high" />
+    <link rel="preload" href="/icon.png" as="image" fetchpriority="high" />
+    
+    <!-- DNS prefetch for external resources -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+    
+    <!-- Resource hints for better performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    
+    <!-- CSS will be loaded by Vite -->
   </head>
 
   <body>

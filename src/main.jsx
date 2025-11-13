@@ -2,19 +2,19 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
 import App from "./App.jsx";
 import SmoothScrollWrapper from "./components/SmoothScrollWrapper.jsx";
-import { CartProvider } from "./context/CartContext.jsx"; // ✅ Make sure path is correct
 import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <CartProvider>
+    <HelmetProvider>
+      <BrowserRouter>
         <SmoothScrollWrapper>
           <App />
         </SmoothScrollWrapper>
-      </CartProvider>
-    </BrowserRouter>
+      </BrowserRouter>
+    </HelmetProvider>
   </React.StrictMode>
 );

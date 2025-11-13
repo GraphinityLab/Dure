@@ -10,7 +10,7 @@ import axios from 'axios'; // Import the axios library
 // IMPORTANT: Replace 'http://localhost:5000' with your actual backend API URL
 // when deploying your React app (e.g., 'https://api.dure.com').
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:5000/api', // All requests will be prefixed with this URL + /api
+  baseURL: 'http://localhost:4001/api', // All requests will be prefixed with this URL + /api
   timeout: 10000, // Optional: Request timeout in milliseconds (10 seconds)
   headers: {
     'Content-Type': 'application/json', // Default content type for requests
@@ -39,6 +39,11 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
+    // Ignore aborted requests (not an error)
+    if (error.name === 'AbortError' || error.name === 'CanceledError' || error.code === 'ERR_CANCELED') {
+      return Promise.reject(error);
+    }
+    
     // Example: Handle 401 Unauthorized errors globally
     if (error.response && error.response.status === 401) {
       console.error('Unauthorized request. Redirecting to login...');

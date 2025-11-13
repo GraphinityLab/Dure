@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiMenu, FiX } from "react-icons/fi";
-import logo from "/icon.png";
+import DureText from "./DureText";
+
+// Optimize logo loading
+const logo = "/icon.png";
 
 const pages = [
   { name: "About", href: "/about" },
@@ -39,11 +42,11 @@ const Navbar = () => {
     };
   }, []);
 
-  const isDark = () => ["hero", "gallery"].includes(activeSection) && !scrolled;
-  const textColor = isDark() ? "text-white" : "text-[#3e2e3d]";
-  const hoverColor = isDark()
-    ? "hover:opacity-80"
-    : "hover:text-[#5e4438] transition-colors";
+  // Start with white text, change to dark when scrolled
+  const textColor = scrolled ? "text-[#3e2e3d]" : "text-white";
+  const hoverColor = scrolled
+    ? "hover:text-[#5e4438] transition-colors"
+    : "hover:opacity-80";
 
   const leftPages = pages.slice(0, 2);
   const rightPages = pages.slice(2);
@@ -60,8 +63,16 @@ const Navbar = () => {
           href="/"
           className="md:hidden absolute left-1/2 -translate-x-1/2 flex items-center gap-1"
         >
-          <img src={logo} alt="Duré Logo" className="h-8 w-8" />
-          <span className="text-2xl font-[Soligant] text-white">Duré Aesthetics</span>
+          <img 
+            src={logo} 
+            alt="Duré Logo" 
+            className="h-8 w-8" 
+            width="32"
+            height="32"
+            loading="eager"
+            decoding="async"
+          />
+          <span className="text-2xl font-[Soligant] text-white"><DureText suffix=" Aesthetics" /></span>
         </a>
 
         {/* Mobile Menu Toggle */}
@@ -98,7 +109,7 @@ const Navbar = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.6 }}
             >
-              Duré
+              <DureText />
             </motion.span>
             <motion.img
               src={logo}
