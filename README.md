@@ -48,7 +48,7 @@ Prioritizing **Data Integrity** and **Cyber Security Posture** through professio
 
 1. **Clone the Repository**
    ```bash
-   git clone [https://github.com/GraphinityLab/dure-backend.git](https://github.com/GraphinityLab/dure-backend.git)
+   git clone https://github.com/GraphinityLab/Dure.git
 2.  **Install Dependencies**
     ```bash
     npm install
@@ -63,6 +63,6 @@ Prioritizing **Data Integrity** and **Cyber Security Posture** through professio
 ---
 
 <p align="center">
-  Built with Precision by <b>Akshat Patel</b><br>
-  <i>Robust Software Engineer | B.Sc Computer Science</i>
+  Built with Precision by <b>Graphinity Labs</b><br>
+ 
 </p>
