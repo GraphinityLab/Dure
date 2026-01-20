@@ -65,7 +65,7 @@
 <p align="center">
   <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&color=8D7B68&center=true&width=450&lines=%22Security+is+the+Foundation+of+Beauty.%22" alt="Typing Quote" />
   <br/>
-  <strong>— Akshat Patel | Robust Software Engineer</strong>
+  <strong>— Akshat Patel | Software Engineer</strong>
 </p>
 
 ---
