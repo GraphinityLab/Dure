@@ -11,7 +11,7 @@
 ---
 
 ### 📋 <font color="#8D7B68">Project Overview</font>
-**Duré Aesthetics** is a premium salon management platform built with **Next.js** and **MariaDB**. It balances a minimalist frontend—inspired by natural earth tones with a secure, high-integrity backend to manage client scheduling, staff operations, and administrative oversight.
+**Duré Aesthetics** is a premium salon management platform built with **Next.js** and **MariaDB**. It balances a minimalist frontend, inspired by natural earth tones with a secure, high-integrity backend to manage client scheduling, staff operations, and administrative oversight.
 
 ---
 
