@@ -1,53 +1,54 @@
-# 🌿 Duré Aesthetics — Salon Management System
+# <p align="center"><font color="#8D7B68">🌿 Duré Aesthetics — Salon Management System</font></p>
 
 <p align="center">
   <img src="https://dure.graphinitylab.com/dure_bg.png" alt="Duré Aesthetics Banner" width="100%">
 </p>
 
-> **"Where beauty meets artistry, and every moment is crafted for your radiance."**
-
-### 📋 Project Overview
-[cite_start]**Duré Aesthetics** is a robust full-stack management and booking platform designed for high-end salons[cite: 24]. It balances a minimalist, high-aesthetic frontend with a secure, high-integrity backend to manage client scheduling and staff operations.
+<p align="center">
+  <font color="#A4907C"><i>"Where beauty meets artistry, and every moment is crafted for your radiance."</i></font>
+</p>
 
 ---
 
-### 🛠 Technical Architecture
+### 📋 <font color="#8D7B68">Project Overview</font>
+[cite_start]**Duré Aesthetics** is a high-end salon management platform built with **Next.js** and **MariaDB**[cite: 21, 24]. It features a minimalist, responsive frontend and a secure, role-based backend to manage client scheduling, staff operations, and administrative oversight.
 
-| Layer | Technologies Used |
+---
+
+### 🛠 <font color="#8D7B68">Technical Stack</font>
+
+| <font color="#A4907C">Component</font> | <font color="#A4907C">Technologies</font> |
 | :--- | :--- |
-| **Frontend** | [cite_start]React, Next.js, Tailwind CSS, Vite [cite: 30] |
+| **Frontend** | [cite_start]React, Next.js, Tailwind CSS, Vite [cite: 9, 30] |
 | **Backend** | [cite_start]Node.js, Express [cite: 36] |
-| **Database** | [cite_start]MariaDB [cite: 24] |
+| **Database** | [cite_start]MariaDB, MongoDB [cite: 9, 24] |
 | **Security** | [cite_start]Bcrypt, Server-side Sessions, JWT [cite: 11, 24] |
 
 ---
 
-### 🔐 Security & "Robust" Engineering
-As a **Software Engineer** focused on national security standards, I implemented several key security features in this project:
+### 🔐 <font color="#8D7B68">Security & "Robust" Engineering</font>
+In alignment with secure development standards, this project emphasizes **Data Integrity** and **Cyber Security Posture**:
 
-* **State Integrity:** Managed user authentication using server-side **Sessions** to ensure secure data persistence without exposing sensitive headers.
-* [cite_start]**Credential Protection:** Integrated **Bcrypt** for industry-standard password hashing before database storage[cite: 11].
-* [cite_start]**Access Control:** Developed a **Role-Based Access Control (RBAC)** system using **JWT** for staff and admin dashboards[cite: 24].
-* [cite_start]**Reliability:** Applied **Agile QA** practices, including regression testing and API validation, to ensure a stable production environment[cite: 26].
-
-
+* **State Integrity:** Implemented server-side **Sessions** via Express to maintain secure user states and prevent client-side tampering.
+* [cite_start]**Credential Protection:** Utilized **Bcrypt** for industry-standard password hashing before database storage[cite: 11, 12].
+* [cite_start]**Access Control:** Integrated **JWT Authentication** to manage role-based access for staff and admin users[cite: 11, 24].
+* [cite_start]**Validation:** Applied rigorous **API Validation** and **Agile QA practices**, including regression testing to ensure 100% reliability[cite: 11, 26].
 
 ---
 
-### ✨ Key Features
-* [cite_start]**Responsive UI:** Mobile-first design using **Tailwind CSS** for a seamless experience across all devices[cite: 30].
-* [cite_start]**Client Scheduling:** A streamlined booking flow validated against backend logic to prevent double-booking[cite: 25].
-* [cite_start]**Admin Dashboard:** Comprehensive staff management tools for salon owners[cite: 24].
-* [cite_start]**Visual Artistry:** Custom **Canvas effects** and animated hero sections to reflect the brand's premium identity[cite: 30].
+### ✨ <font color="#8D7B68">Key Features</font>
+* [cite_start]**Responsive UI:** Engineered with **Tailwind CSS** for a seamless experience across all devices[cite: 9, 30].
+* [cite_start]**Dynamic Booking:** A streamlined scheduling flow validated against backend logic to ensure accuracy[cite: 25, 38].
+* **Visual Artistry:** Custom **Canvas effects** and animated sections reflecting a premium brand identity.
+* [cite_start]**Admin Oversight:** Comprehensive dashboards for managing appointments and staff records[cite: 24, 25].
 
 ---
 
-### 🚀 Setup and Installation
+### 🚀 <font color="#8D7B68">Setup and Installation</font>
 
-1.  **Clone the Repository**
-    ```bash
-    git clone [https://github.com/GraphinityLab/dure-backend.git](https://github.com/GraphinityLab/dure-backend.git)
-    ```
+1. **Clone the Repository**
+   ```bash
+   git clone [https://github.com/GraphinityLab/dure-backend.git](https://github.com/GraphinityLab/dure-backend.git)
 2.  **Install Dependencies**
     ```bash
     npm install
