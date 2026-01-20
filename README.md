@@ -1,7 +1,7 @@
 # <p align="center"><font color="#8D7B68">🌿 Duré Aesthetics — Salon Management System</font></p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/GraphinityLab/dure-backend/main/hero-preview.jpg" alt="Duré Aesthetics Banner" width="100%">
+  <img src="https://dure.graphinitylab.com/dure_bg.png" width="100%">
 </p>
 
 <p align="center">
