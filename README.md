@@ -1,7 +1,7 @@
 # 🌿 Duré Aesthetics — Salon Management System
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/GraphinityLab/dure-backend/main/hero-preview.jpg" alt="Duré Aesthetics Banner" width="100%">
+  <img src="https://dure.graphinitylab.com/dure_bg.png" alt="Duré Aesthetics Banner" width="100%">
 </p>
 
 > **"Where beauty meets artistry, and every moment is crafted for your radiance."**
